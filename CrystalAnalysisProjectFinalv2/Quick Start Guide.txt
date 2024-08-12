@@ -1,0 +1,45 @@
+######################################################################
+#  Quick Start Guide - Crystal Analysis System V2 - By Philip Stokes #
+######################################################################
+
+1. Open Entire 'CrystalAnalysisProjectFinalv2' as root folder in you IDE or editor of choice.
+
+2. Run from main.py (dependencies are located in README.txt)
+
+3. Go to File -> Upload Video -> Navigate to 'Crystal_Video.avi' in the above folder.
+
+4. Navigate through frames using "Next Frame" and "Previous Frame"
+
+OpenCV preprocessing and Hough Transform:
+-----------------------------------------
+
+1. Click "OpenCV Analysis (Crop)" button, this will put you in cropping mode.
+
+2. Use your mouse to drag the safe zone box over an identified crystal. (To cancel this just cancel out of the popup windows)
+
+3. When happy with selection, crop the number of frames before and after the current frame to add to the analysis. (Requires a few frames to get a good growth rate)
+
+4. The crop display should appear, on this window you should click "Start Analysis". This will do the preprocessing and hough transform and then give you results on screen and in a csv. file.
+
+5. You can now use both "Next Frame / Previous Frame" to look though each frame and "Next Stage / Previous Stage" to see each stage of the analysis. (You may need to press next frame first before it works)
+
+YOLO Crystal Detection:
+-----------------------
+
+1. Click "Start Crystal Detection" button.
+
+2. In the popup windows, specify the start and end frames for analysis.
+
+3. Confirm your selection and the YOLO Crystal Detection algorithm should start working in the main frame.
+
+4. After this has completed in real time, the results will be displayed and saved as a .csv file.
+
+Additional Features:
+--------------------
+
+You can apply 'contouring' and 'hough transform' to the entire dataset by pressing either button at the bottom and then changing the "view" in the top left. It is not recommended to run analysis after doing this.
+
+
+
+
+
