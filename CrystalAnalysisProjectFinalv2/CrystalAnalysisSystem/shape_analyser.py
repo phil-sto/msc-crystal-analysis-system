@@ -5,7 +5,7 @@ from math import radians, atan2, degrees
 
 class ShapeAnalyser:
     """
-    Class for analyzing the shape of crystals in the image using OpenCV pre-processing and hough transform.
+    Class for analyzing the shape of crystals in the image using OpenCV pre-processing and hough transform. PS 2024
     """
     def __init__(self, image):
         self.original_image = image

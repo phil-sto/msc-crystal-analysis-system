@@ -15,7 +15,7 @@ class TestController(unittest.TestCase):
         self.mock_detector = MockCrystalDetector.return_value
         self.app = CrystalAnalysisController()
 
-    def test_initialization(self):
+    def test_initialisation(self):
         self.assertIsInstance(self.app, CrystalAnalysisController)
         self.assertIsNotNone(self.app.menu_bar)
         self.assertIsNotNone(self.app.status_var)

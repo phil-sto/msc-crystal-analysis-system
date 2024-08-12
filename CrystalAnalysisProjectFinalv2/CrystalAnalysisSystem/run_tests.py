@@ -6,6 +6,11 @@ from unit_tests.test_crop_display import TestCropDisplay
 from unit_tests.test_shape_analyser import TestShapeAnalyser
 from unit_tests.test_controller import TestController
 
+"""
+This class does not work as intended, please run unit tests individually. Thanks.
+"""
+
+
 def make_suite():
     """
     make a unittest TestSuite object
@@ -44,12 +49,14 @@ def make_suite():
 
     return suite
 
+
 def run_all_tests():
     """
     run all tests in the TestSuite
     """
     runner = unittest.TextTestRunner()
     runner.run(make_suite())
+
 
 if __name__ == '__main__':
     run_all_tests()

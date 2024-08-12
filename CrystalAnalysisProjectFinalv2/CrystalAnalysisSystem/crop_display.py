@@ -1,12 +1,10 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
-import os
 import cv2
 import numpy as np
 from PIL import Image, ImageTk
 
-import CrystalAnalysisSystem.utils as utils
 from CrystalAnalysisSystem.shape_analyser import ShapeAnalyser
+from CrystalAnalysisSystem.growth_rate_calculator import GrowthRateCalculator
 
 
 class CropDisplay(tk.Toplevel):
@@ -27,6 +25,9 @@ class CropDisplay(tk.Toplevel):
             "Hough Lines", "Final with Bounding Box"
         ]
         self.analysis_data = []
+        self.log_dir = "log"
+
+        self.calculator = GrowthRateCalculator(self.log_dir)  # Initialize GrowthRateCalculator
 
         # Canvas setup
         self.canvas = tk.Canvas(self, width=640, height=480)
@@ -83,32 +84,20 @@ class CropDisplay(tk.Toplevel):
         """
         Start the analysis for all cropped frames and save the results to a CSV file.
         """
-        for index, frame in enumerate(self.cropped_frames):
+        for i, frame in enumerate(self.cropped_frames):
             self.analyser = ShapeAnalyser(frame)
             width, height, angle = self.analyser.process_image()
 
             # Collect analysis data
             self.analysis_data.append({
-                'Frame Index': index,
-                'Width': width if width is not None else "N/A",
-                'Height': height if height is not None else "N/A",
-                'Angle': angle if angle is not None else "N/A",
+                'frame': i,
+                'width': width if width is not None else "N/A",
+                'height': height if height is not None else "N/A",
+                'angle': angle if angle is not None else "N/A",
             })
 
-        # Save the analysis data to a CSV file
-        self.save_analysis_data()
-
-    def save_analysis_data(self):
-        """
-        Save the collected analysis data to a CSV file in the 'log' directory.
-        """
-        if not os.path.exists('log'):
-            os.makedirs('log')
-
-        file_path = os.path.join('log', 'manual_analysis_data.csv')
-        headers = ['Frame Index', 'Width', 'Height', 'Angle']  # ['Frame Index', 'Width', 'Height', 'Angle', 'Layer']
-        utils.save_analysis_to_csv(file_path, self.analysis_data, headers)
-        messagebox.showinfo("Save Successful", f"Analysis data saved to {file_path}")
+        # calculate growth rate for openCV - use_hypotenuse = False.
+        self.calculator.calculate_growth_rate(self.analysis_data, use_hypotenuse=False)
 
     def next_frame(self):
         """

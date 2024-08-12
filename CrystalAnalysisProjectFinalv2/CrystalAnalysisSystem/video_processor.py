@@ -1,20 +1,20 @@
 import os
 
 import cv2
-import pandas as pd
-import matplotlib.pyplot as plt
 from tkinter import filedialog, messagebox
 
 from CrystalAnalysisSystem.utils import apply_hough_transform, apply_contouring
 from CrystalAnalysisSystem.crop_display import CropDisplay
 from CrystalAnalysisSystem.crystal_detector import CrystalDetector
+from CrystalAnalysisSystem.growth_rate_calculator import GrowthRateCalculator
 
 
 class VideoProcessor:
     """
     Handles video processing tasks such as uploading, frame extraction,
-    applying hough transform, contouring, cropping, and crystal detection.
+    applying hough transform, contouring, cropping, and crystal detection. PS 2024
     """
+
     def __init__(self, frame_display, status_var, progress_bar):
         self.video_path = ""
         self.frames = []
@@ -26,7 +26,9 @@ class VideoProcessor:
         self.cache_dir = "cache"
         self.log_dir = "log"
 
-        self.detector = CrystalDetector(model_path='models/best.pt')  # Initialize the detector
+        self.detector = CrystalDetector(model_path='models/best.pt')  # Initialise detector
+        # self.detector = CrystalDetector(model_path='models/last.pt')  # Alternative Model to use
+        self.calculator = GrowthRateCalculator(self.log_dir)  # Initialise GrowthRateCalculator
 
         # Create cache directory if it doesn't exist
         if not os.path.exists(self.cache_dir):
@@ -207,42 +209,6 @@ class VideoProcessor:
 
         # update status to show complete
         self.status_var.set("Detection completed")
-        # calculate growth rate
-        self.calculate_growth_rate(crystal_data)
+        # calculate growth rate for YOLO - use_hypotenuse = True.
+        self.calculator.calculate_growth_rate(crystal_data, use_hypotenuse=True)
 
-    def calculate_growth_rate(self, crystal_data):
-        """
-        Calculate and display the growth rate of crystals. Maybe move to its own class
-        """
-        df = pd.DataFrame(crystal_data)  # Convert crystal data to a pandas DataFrame
-        df['size'] = df['width'] * df['height']   # Calculate the size of each crystal (width * height)
-
-        # Group the data by frame and sum the sizes to get the total size per frame
-        df_grouped = df.groupby('frame').agg({'size': 'sum'}).reset_index()
-
-        # Calculate the percentage change in size between frames to get the growth rate
-        df_grouped['growth_rate'] = df_grouped['size'].pct_change() * 100
-
-        average_growth_rate = df_grouped['growth_rate'].mean()
-        messagebox.showinfo("Growth Rate", f"Average Growth Rate: {average_growth_rate:.2f}%")
-
-        # Save log to file
-        log_file = os.path.join(self.log_dir, "crystal_analysis_data.csv")
-        df.to_csv(log_file, index=False)
-
-        # Plot the growth rate
-        import matplotlib.pyplot as plt
-        plt.plot(df_grouped['frame'], df_grouped['growth_rate'], marker='o')
-        plt.xlabel('Frame')
-        plt.ylabel('Growth Rate (%)')
-        plt.title('Crystal Growth Rate Over Frames')
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
-
-        # Save the plot as an image file
-        graph_file = os.path.join(self.log_dir, "crystal_growth_rate.png")
-        plt.savefig(graph_file)
-
-        plt.show()
-        cv2.destroyAllWindows()

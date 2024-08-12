@@ -1,9 +1,10 @@
 import csv
-import os
 import cv2
 import numpy as np
 
-# Some helper functions - should probably move.
+"""
+Helper functions. PS 2024
+"""
 
 
 def apply_hough_transform(image):
@@ -33,19 +34,6 @@ def apply_contouring(image):
     closed = cv2.morphologyEx(dilated, cv2.MORPH_CLOSE, kernel)
     contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     return contours
-
-
-# def preprocess_image(image):
-#     """
-#     preprocess the image for further analysis.
-#     """
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-#     blurred = cv2.GaussianBlur(gray, (11, 11), 0)
-#     edges = cv2.Canny(blurred, 50, 150)
-#     kernel = np.ones((5, 5), np.uint8)
-#     dilated = cv2.dilate(edges, kernel, iterations=1)
-#     closed = cv2.morphologyEx(dilated, cv2.MORPH_CLOSE, kernel)
-#     return closed
 
 
 def filter_regions(contours):
@@ -101,17 +89,14 @@ def combine_results(image):
 
     return image, (x_min, y_min, width, height)
 
-
-def save_analysis_to_csv(file_path, analysis_data, headers):
-    """
-    Save the analysis data to a CSV file.
-
-    :param file_path: The path where the CSV file will be saved.
-    :param analysis_data: A list of dictionaries containing the analysis data.
-    :param headers: A list of strings representing the column headers.
-    """
-    with open(file_path, mode='w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=headers)
-        writer.writeheader()
-        for data in analysis_data:
-            writer.writerow(data)
+# def preprocess_image(image):
+#     """
+#     preprocess the image for further analysis.
+#     """
+#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     blurred = cv2.GaussianBlur(gray, (11, 11), 0)
+#     edges = cv2.Canny(blurred, 50, 150)
+#     kernel = np.ones((5, 5), np.uint8)
+#     dilated = cv2.dilate(edges, kernel, iterations=1)
+#     closed = cv2.morphologyEx(dilated, cv2.MORPH_CLOSE, kernel)
+#     return closed

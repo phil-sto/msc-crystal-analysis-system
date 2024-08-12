@@ -1,17 +1,14 @@
-import os
-
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, simpledialog
+from tkinter import ttk, messagebox, simpledialog
 
 from CrystalAnalysisSystem.video_processor import VideoProcessor
 from CrystalAnalysisSystem.frame_display import FrameDisplay
-from CrystalAnalysisSystem.crop_display import CropDisplay
 
 
 class CrystalAnalysisController(tk.Tk):
     """
     Main application class for the Crystal Analysis System.
-    Initializes the GUI components and sets up event handlers.
+    Initialises the GUI components and sets up event handlers. PS 2024
     """
     def __init__(self):
         super().__init__()
@@ -78,7 +75,8 @@ class CrystalAnalysisController(tk.Tk):
         self.crop_button.pack(side=tk.LEFT, padx=5, pady=5)
 
         # Button for running crystal detection model
-        self.crystal_detection_button = tk.Button(self.status_bar_frame, text="Run Crystal Detection", command=self.run_crystal_detection)
+        self.crystal_detection_button = tk.Button(self.status_bar_frame, text="Run Crystal Detection",
+                                                  command=self.run_crystal_detection)
         self.crystal_detection_button.pack(side=tk.LEFT, padx=5, pady=5)
 
     def upload_video(self):
@@ -133,7 +131,6 @@ class CrystalAnalysisController(tk.Tk):
         """
         self.frame_display.show_original_frames()
 
-
     def show_hough_frames(self):
         """
         Display the video frames with hough transform applied.
@@ -152,4 +149,6 @@ class CrystalAnalysisController(tk.Tk):
         """
         Display the "about" information for the application.
         """
-        messagebox.showinfo("About", "Phil's Crystal Analysis System\nVersion 1.0\nDeveloped by Phil")
+        messagebox.showinfo("About", "Phil's Crystal Analysis System\nVersion 2.1"
+                                     "\nDeveloped by Philip Stokes (Student id: 201260120) "
+                                     "for MSc Project at The University of Leeds 2023-2024")

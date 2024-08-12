@@ -1,10 +1,9 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 import tkinter as tk
 import numpy as np
-from PIL import Image, ImageTk
+from PIL import ImageTk
 
-from CrystalAnalysisSystem.shape_analyser import ShapeAnalyser
 from CrystalAnalysisSystem.crop_display import CropDisplay
 
 
@@ -37,15 +36,6 @@ class TestCropDisplay(unittest.TestCase):
         frame = np.zeros((100, 100, 3), dtype=np.uint8)
         self.crop_display.display_frame(frame)
         self.assertIsInstance(self.crop_display.canvas.image, ImageTk.PhotoImage)
-
-    @patch('CrystalAnalysisSystem.utils.save_analysis_to_csv')
-    def test_save_analysis_data(self, mock_save_analysis_to_csv):
-        self.crop_display.analysis_data = [
-            {'Frame Index': 0, 'Width': 50, 'Height': 50, 'Angle': 45},
-            {'Frame Index': 1, 'Width': 60, 'Height': 60, 'Angle': 30}
-        ]
-        self.crop_display.save_analysis_data()
-        self.assertTrue(mock_save_analysis_to_csv.called)
 
     def test_next_frame(self):
         self.crop_display.next_frame()

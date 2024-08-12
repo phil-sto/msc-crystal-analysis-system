@@ -7,7 +7,7 @@ from tkinter import simpledialog, messagebox
 class FrameDisplay(tk.Frame):
     """
     Class for displaying and navigating through video frames.
-    Handles frame display, navigation, and cropping functionality.
+    Handles frame display, navigation, and cropping functionality. PS 2024
     """
     def __init__(self, master, video_processor, current_frame_var):
         super().__init__(master)
@@ -45,19 +45,6 @@ class FrameDisplay(tk.Frame):
         self.next_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.next_button.bind("<ButtonPress-1>", self.start_next_frame)
         self.next_button.bind("<ButtonRelease-1>", self.stop_next_frame)
-
-        # Move 10 frames. just get rid of this for now...
-        """
-        self.next_10_button = tk.Button(self.controls_frame, text=">>")
-        self.next_10_button.pack(side=tk.LEFT, padx=5, pady=5)
-        self.next_10_button.bind("<ButtonPress-1>", self.start_next_frame)
-        self.next_10_button.bind("<ButtonRelease-1>", self.stop_next_frame)
-
-        self.prev_10_button = tk.Button(self.controls_frame, text="<<")
-        self.prev_10_button.pack(side=tk.LEFT, padx=5, pady=5)
-        self.prev_10_button.bind("<ButtonPress-1>", self.start_previous_frame(1))
-        self.prev_10_button.bind("<ButtonRelease-1>", self.stop_previous_frame)
-        """
 
         # Bind canvas events for cropping
         self.canvas.bind("<ButtonPress-1>", self.on_crop_start)
@@ -178,25 +165,25 @@ class FrameDisplay(tk.Frame):
         self.current_frame_index = 0
         self.update_canvas(self.video_processor.get_frame(self.current_frame_index, self.video_processor.frames))
 
-    def show_hough_frames(self):
-        """
-        Show the frames with hough transform applied.
-        """
-        self.frame_source = 'hough'
-        self.current_frame_index = 0
-        if self.video_processor.hough_frames:
-            self.update_canvas(
-                self.video_processor.get_frame(self.current_frame_index, self.video_processor.hough_frames))
-
-    def show_contour_frames(self):
-        """
-        Show the frames with contouring applied.
-        """
-        self.frame_source = 'contour'
-        self.current_frame_index = 0
-        if self.video_processor.contour_frames:
-            self.update_canvas(
-                self.video_processor.get_frame(self.current_frame_index, self.video_processor.contour_frames))
+    # def show_hough_frames(self):
+    #     """
+    #     Show the frames with hough transform applied.
+    #     """
+    #     self.frame_source = 'hough'
+    #     self.current_frame_index = 0
+    #     if self.video_processor.hough_frames:
+    #         self.update_canvas(
+    #             self.video_processor.get_frame(self.current_frame_index, self.video_processor.hough_frames))
+    #
+    # def show_contour_frames(self):
+    #     """
+    #     Show the frames with contouring applied.
+    #     """
+    #     self.frame_source = 'contour'
+    #     self.current_frame_index = 0
+    #     if self.video_processor.contour_frames:
+    #         self.update_canvas(
+    #             self.video_processor.get_frame(self.current_frame_index, self.video_processor.contour_frames))
 
     def start_cropping(self):
         """
@@ -235,7 +222,7 @@ class FrameDisplay(tk.Frame):
 
     def on_crop_end(self, event):
         """
-        Complete the cropping operation and initiate the cropping process.
+        Complete the cropping operation and initiate the cropping process. Displays message.
         """
         if not self.is_cropping:
             return
